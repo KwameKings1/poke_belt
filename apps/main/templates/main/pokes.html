@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <title>Pokes</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+  </head>
+  <body>
+    <div id="container">
+      <div class="">
+        <p><a href="/logout">Logout</a></p>
+      </div>
+      <div class="">
+        <h1>Welcome, {{ current_user.name }}!</h1>
+        <p>{{ poke.poked }} people poked you!</p>
+      </div>
+      <div class="">
+        {% for user in users %}
+          <p>{{ user.name }} poked you {{ user.pokes }}.</p>
+        {% endfor %}
+      </div>
+      <div class="">
+        <h3>People you may want to poke:</h3>
+        <div class="">
+          <table>
+            <tr>
+              <th>Name</th>
+              <th>Alias</th>
+              <th>Email Address</th>
+              <th>Poke History</th>
+              <th>Action</th>
+            </tr>
+            {% for user in users %}
+              <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.alias }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.pokes }}</td>
+                <td>
+                  <form class="" action="/poke_person/{{ user.id }}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" name="poke" value="Poke!">
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
